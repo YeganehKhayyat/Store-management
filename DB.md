@@ -34,8 +34,8 @@ FoodItem
 
 
 User
-    ?
+    N
     |
-    ?
+    N
 FoodItem
 
