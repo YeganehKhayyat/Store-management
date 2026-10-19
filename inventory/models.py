@@ -30,7 +30,7 @@ class FoodItem(models.Model):
 class Reservation(models.Model):
     class Status(models.TextChoices):
         ACTIVE = 'active' , 'Active'
-        CANCEL = 'expired' , 'Expired'
+        CANCEL = 'cancel' , 'Cancel'
         COMPLETED = 'completed' , 'Completed'
         
     volunteer = models.ForeignKey(User , on_delete=models.CASCADE)
