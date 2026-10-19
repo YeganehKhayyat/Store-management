@@ -4,9 +4,15 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class FoodItem(models.Model):
+    class Status(models.TextChoices):
+        AVAILABLE = 'available' , 'Available'
+        RESEREVED = 'reserved' , 'Reserved'
+        EXPIRED = 'expired' , 'Expired'
+        
     title = models.CharField(max_length=128)
     quantity = models.PositiveIntegerField()
     expired_date = models.DateTimeField()
+    
     class Meta:
         constraints = [
             models.CheckConstraint(
@@ -24,9 +30,10 @@ class FoodItem(models.Model):
 class Reservation(models.Model):
     class Status(models.TextChoices):
         ACTIVE = 'active' , 'Active'
-        EXPIRED = 'expired' , 'Expired'
+        CANCEL = 'expired' , 'Expired'
+        COMPLETED = 'completed' , 'Completed'
         
-    user = models.ForeignKey(User , on_delete=models.CASCADE)
+    volunteer = models.ForeignKey(User , on_delete=models.CASCADE)
     food_item = models.ForeignKey(FoodItem , on_delete=models.CASCADE)
     status = models.CharField(
         max_length=30 ,
@@ -37,6 +44,7 @@ class Reservation(models.Model):
     class Meta:
         constraints =  [
            models.UniqueConstraint(
+               fields = ['volunteer' , 'food_item'],
                conditions = Q(status = 'active'),
                name = 'unique_active_reservation'
            )
