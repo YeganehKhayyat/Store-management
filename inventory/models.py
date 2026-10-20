@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Q
 from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 
 class FoodItem(models.Model):
@@ -11,20 +12,40 @@ class FoodItem(models.Model):
         
     title = models.CharField(max_length=128)
     quantity = models.PositiveIntegerField()
-    expired_date = models.DateTimeField()
+    expired_date = models.DateField()
     
     class Meta:
         constraints = [
             models.CheckConstraint(
-                condition=Q(quantity_gt = 0),
+                condition=Q(quantity__gt = 0),
                 name="fooditem_quantity_gt_zero"
             )
         ]
         
-        indexes = models.Index(
+        indexes = [models.Index(
             fields=['expired_date' , 'quantity'] , 
             name = "food_expired_idx"
         )
+        ]
+        
+    @property    
+    def days_until_expiry(self):
+        return (
+            self.expired_date - timezone.localdate()
+        ).days
+        
+    @property
+    def is_expired(self):
+        return self.expired_date < timezone.localdate()    
+
+    @property
+    def near_expiry(self):
+        days = self.days_until_expiry
+        
+        return 0 <= days <= 3
+    
+    def __str__(self):
+        return f"{self.title} -- {self.expired_date} -- {self.quantity}"
         
         
 class Reservation(models.Model):
@@ -45,7 +66,7 @@ class Reservation(models.Model):
         constraints =  [
            models.UniqueConstraint(
                fields = ['volunteer' , 'food_item'],
-               conditions = Q(status = 'active'),
+               condition = Q(status = 'active'),
                name = 'unique_active_reservation'
            )
         ]

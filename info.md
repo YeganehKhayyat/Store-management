@@ -9,3 +9,31 @@
 4- call service function
 
 5- response redirect ...
+
+
+
+# near expiry
+
+expiry date < 3
+
+expiry date <= 3    : boundry condition
+
+expiry date 2025-10-18 00:00:00 utc | 2025-10-18 00:03:30 tehran
+
+# sample in near expiry
+
+today = timezone.localdate()
+
+end_date = today + timedelta(days = 3)
+
+
+FoodItem.objects.filter(
+    expired_date__gt = today,
+    expired_date__lte = end_date,
+)
+
+# challenge python :(
+
+foods = FoodItem.objects.all()
+for food in foods :
+    print(food.is_near_expiry)
