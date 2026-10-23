@@ -37,3 +37,24 @@ FoodItem.objects.filter(
 foods = FoodItem.objects.all()
 for food in foods :
     print(food.is_near_expiry)
+
+
+# Transaction atomic 
+reservation = Reservation.objects.create(
+        food_item = food_item,
+        volunteer = volunteer,
+        status = Reservation.Status.ACTIVE
+)
+    
+food_item.status = FoodItem.Status.RESEREVED
+food_item.save(
+    update_fields = ['status']
+)
+
+SQL
+
+insert (food_item , volunteer , status) values("milk" , "user1" , "active")
+
+update set_status = 'reserved';
+
+commit; / rollback;
