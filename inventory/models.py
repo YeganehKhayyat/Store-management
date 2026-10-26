@@ -30,6 +30,7 @@ class FoodItem(models.Model):
         LITER = "liter" , 'Liter'
         
     title = models.CharField(max_length=128)
+    description = models.TextField(blank=True)
     quantity = models.PositiveIntegerField()
     expired_date = models.DateField()
     category = models.ForeignKey(
