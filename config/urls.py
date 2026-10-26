@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from inventory.views import reserve_food
+from inventory.views import dashboard
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('reserve/' , reserve_food , name = "reserve")
+    path("dashboard/" , dashboard , name="dashboard")
 ]
