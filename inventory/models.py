@@ -82,6 +82,10 @@ class FoodItem(models.Model):
                     )
         ]
         
+        permissions = [
+            ('view_food_reports' , "Can view food reports")
+        ]
+        
     @property    
     def days_until_expiry(self):
         return (

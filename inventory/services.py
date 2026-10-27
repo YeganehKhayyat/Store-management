@@ -1,6 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
+from django.test.utils import CaptureQueriesContext
+from django.db import connection
 
 from inventory.models import FoodItem, Reservation
 
@@ -78,3 +80,13 @@ def donate_reserve_food(*,reservation_id):
     
     return reservation
 
+
+def test():
+    with CaptureQueriesContext(connection) as q:
+        items = FoodItem.objects.prefetch_related("reservation_set")
+        for item in items:
+            print(item.title)
+            for rsv in item.reservation_set.all():
+                print(rsv.status)
+                
+        print("Query count" , len(q))

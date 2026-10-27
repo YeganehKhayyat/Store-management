@@ -4,7 +4,7 @@ from django.shortcuts import (
     render
     ) 
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required , permission_required
 from django.contrib import messages
 from django.http import HttpResponseNotAllowed
 from django.core.exceptions import ValidationError
@@ -74,6 +74,10 @@ from inventory.reports import get_category_report
 #     return redirect("reservation_list")
 
 @login_required
+@permission_required(
+    "inventory.view_food_reports",
+    raise_exception=True
+)
 def dashboard(request):
     category_report = get_category_report()
     return render(
