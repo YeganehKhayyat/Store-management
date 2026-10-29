@@ -4,6 +4,9 @@ from django.utils import timezone
 from django.test.utils import CaptureQueriesContext
 from django.db import connection
 
+from inventory.exceptions import (InventoryError,
+                                  FoodItemExpired, 
+                                  FoodItemNotAvailableError)
 from inventory.models import FoodItem, Reservation
 
 @transaction.atomic
@@ -11,12 +14,12 @@ def reserve_food_item(* , food_item_id , volunteer):
     food_item = FoodItem.objects.select_for_update().get(id = food_item_id)
     
     if food_item.status != FoodItem.Status.AVAILABLE:
-        raise ValidationError(
+        raise FoodItemNotAvailableError(
             "This food item is not available."
         )
     
     if food_item.expired_date < timezone.localdate():
-        raise ValidationError(
+        raise FoodItemExpired(
             "Expired food cannot be reserved."
         )
         

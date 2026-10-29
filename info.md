@@ -58,3 +58,10 @@ insert (food_item , volunteer , status) values("milk" , "user1" , "active")
 update set_status = 'reserved';
 
 commit; / rollback;
+
+# Type of error
+1. Validation error
+2. Bussiness Rule Error
+3. Permission error
+4. ... not found error
+5. Unexpected error
