@@ -65,3 +65,10 @@ commit; / rollback;
 3. Permission error
 4. ... not found error
 5. Unexpected error
+
+
+# tests:
+
+Arrange -> init
+ACT -> operation
+Assert -> validate

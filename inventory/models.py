@@ -94,12 +94,12 @@ class FoodItem(models.Model):
         
     @property
     def is_expired(self):
-        return self.expired_date < timezone.localdate()    
+        # return self.expired_date < timezone.localdate()    
+        return self.days_until_expiry < 0 
 
     @property
     def near_expiry(self):
         days = self.days_until_expiry
-        
         return 0 <= days <= 3
     
     def __str__(self):
