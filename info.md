@@ -60,15 +60,25 @@ update set_status = 'reserved';
 commit; / rollback;
 
 # Type of error
-1. Validation error
-2. Bussiness Rule Error
-3. Permission error
-4. ... not found error
-5. Unexpected error
 
+1. Validation error
+
+2. Bussiness Rule Error
+
+3. Permission error
+
+4. ... not found error
+
+5. Unexpected error
 
 # tests:
 
 Arrange -> init
+
 ACT -> operation
+
 Assert -> validate
+
+Test -> reserve_food_item() -> database -> assert
+
+Test -> URL -> Middleware -> view -> service -> database -> response -> assert
