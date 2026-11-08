@@ -34,7 +34,7 @@ def reserve_food(request , pk):
     if request.method != "POST":
         logger.warning("reservation rejected")
         return redirect(
-            "food_detail" , 
+            "food_list" , 
             pk = item.pk
         )
     
@@ -61,10 +61,12 @@ def reserve_food(request , pk):
              "رزرو با موفقیت انجام شد."
          )  
     
-    return redirect (
-        "food_detail" , 
-        pk = item.pk
-    )  
+    # return redirect (
+    #     "food_detail" , 
+    #     pk = item.pk
+    # )  
+    
+    return redirect("food_list")
     
 @login_required
 def donate_food(request , pk):
@@ -158,3 +160,11 @@ def create_food(request):
 #         {'form' : form}
 #     )
     
+def food_list(request):
+    foods = FoodItem.objects.all()
+    
+    return render(
+        request , 
+        "food_list.html" , 
+        {"foods": foods}
+    )
